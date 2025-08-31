@@ -3,8 +3,10 @@ package com.tuorg.vehiculos.service;
 import com.tuorg.vehiculos.domain.Vehiculo;
 import com.tuorg.vehiculos.repo.VehiculoRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class GestionVehiculoService {
 
@@ -31,6 +33,23 @@ public class GestionVehiculoService {
     public void frenarPorPlaca(String placa, int kmh) {
         var v = buscarPorPlaca(placa);
                 v.frenar(kmh);
+    }
+
+    /*sort sirve para crear un nuevo flujo de elementos diferente al original
+    según el orden de natural o de un Comparator */
+
+    public List<Vehiculo> listarOrdenadoPorPlaca(){
+        //si mas adelante se añade moto usar Comparator.comparing
+
+        return repo.todos().stream()
+                .sorted(Comparator.comparing(v -> v.placa().trim().toUpperCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Vehiculo> listarOrdenadoPorVelocidadDesc(){
+        return repo.todos().stream()
+                .sorted(Comparator.comparingInt(Vehiculo::velocidadActual).reversed())
+                .collect(Collectors.toList());
     }
 
 }

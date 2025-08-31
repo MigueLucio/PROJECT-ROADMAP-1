@@ -1,6 +1,6 @@
 package com.tuorg.vehiculos.domain;
 
-public class Auto implements Vehiculo {
+public class Auto implements Vehiculo, Comparable<Auto>{
 
     private final String placa;
     private int velocidad;
@@ -27,6 +27,12 @@ public class Auto implements Vehiculo {
             velocidad = Math.max(0, velocidad - kmh);
         }
 
+
+        @Override
+    public int compareTo(Auto o){
+        // normalizamos para comparación consistente
+        return this.placa.trim().toUpperCase().compareTo(o.placa().trim().toUpperCase());
+        }
 
     }
 
